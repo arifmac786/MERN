@@ -118,6 +118,77 @@ curl -X POST http://localhost:3000/users/login \
 
 ---
 
+# /users/profile
+
+Retrieves the authenticated user's profile.
+
+## Endpoint
+- Method: GET
+- URL: /users/profile
+
+## Description
+Fetches the profile information of the currently logged-in user. This is a protected route and requires a valid JWT.
+
+## Headers
+- Authorization: Bearer `<jwt_token>` (if not using cookies)
+
+## Cookies
+- `token=<jwt_token>` (if using cookies)
+
+## Status codes
+- 200 OK — successfully retrieved profile
+  Response body: `{ ...userObject }`
+- 401 Unauthorized — token is missing, invalid, or blacklisted
+
+## Example (curl with header)
+```bash
+curl -X GET http://localhost:3000/users/profile \
+  -H "Authorization: Bearer <jwt_token>"
+```
+
+## Successful response example (200)
+```json
+{
+    "_id": "64f0c1a2...",
+    "fullname": { "firstname": "Alice", "lastname": "Smith" },
+    "email": "alice@example.com",
+    "socketId": null,
+    "__v": 0
+}
+```
+
+---
+
+# /users/logout
+
+Logs out the authenticated user.
+
+## Endpoint
+- Method: GET
+- URL: /users/logout
+
+## Description
+Invalidates the user's current session by blacklisting their JWT. The token will no longer be valid for accessing protected routes.
+
+## Headers
+- Authorization: Bearer `<jwt_token>` (if not using cookies)
+
+## Cookies
+- `token=<jwt_token>` (if using cookies)
+
+## Status codes
+- 200 OK — successfully logged out
+  Response body: `{ "message": "Logged out" }`
+- 401 Unauthorized — token is missing, invalid, or blacklisted
+
+## Example (curl with header)
+```bash
+curl -X GET http://localhost:3000/users/logout \
+  -H "Authorization: Bearer <jwt_token>"
+```
+
+---
+
 # Examples — full flow
 
 1) Register a new user (creates account and returns token)
