@@ -12,7 +12,7 @@ module.exports.createUser = async ({
       firstname,lastname
     },
     email,
-    password
+    W
   })
 
   return user
